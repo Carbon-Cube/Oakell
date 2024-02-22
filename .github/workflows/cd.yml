@@ -25,7 +25,7 @@ jobs:
       env:
         ECR_REGISTRY: '471112673244.dkr.ecr.af-south-1.amazonaws.com'
         ECR_REPOSITORY: 'oakell-staging'
-        IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: 'latest'
       run: |
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
