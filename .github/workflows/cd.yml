@@ -30,6 +30,10 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f aspnet-core/Dockerfile aspnet-core
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
+    - name: Set up Kubeconfig
+      run: |
+        aws eks --region $AWS_REGION update-kubeconfig --name oakell-staging
+
     - name: Create Database Secret
       run: |
         kubectl create secret generic my-db-secret \
