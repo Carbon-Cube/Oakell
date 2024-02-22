@@ -27,7 +27,7 @@ jobs:
         ECR_REPOSITORY: 'oakell-staging'
         IMAGE_TAG: 'latest'
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -f aspnet-core/Dockerfile aspnet-core
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Create Database Secret
