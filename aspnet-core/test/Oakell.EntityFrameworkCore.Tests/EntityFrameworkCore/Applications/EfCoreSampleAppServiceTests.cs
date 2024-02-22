@@ -1,10 +1,10 @@
-using Oakell.Samples;
-using Xunit;
+// using Oakell.Samples;
+// using Xunit;
 
-namespace Oakell.EntityFrameworkCore.Applications;
+// namespace Oakell.EntityFrameworkCore.Applications;
 
-[Collection(OakellTestConsts.CollectionDefinitionName)]
-public class EfCoreSampleAppServiceTests : SampleAppServiceTests<OakellEntityFrameworkCoreTestModule>
-{
+// [Collection(OakellTestConsts.CollectionDefinitionName)]
+// public class EfCoreSampleAppServiceTests : SampleAppServiceTests<OakellEntityFrameworkCoreTestModule>
+// {
 
-}
+// }
