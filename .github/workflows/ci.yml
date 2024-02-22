@@ -12,13 +12,13 @@ jobs:
       with:
         dotnet-version: '8.0'
     - name: Change to aspnet-core project directory
-      run: cd Oakell/aspnet-core
+      run: cd aspnet-core
 
     - name: Restore dependencies
       run: dotnet restore
       
     - name: Build
       run: dotnet build --no-restore --configuration Release
-
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
