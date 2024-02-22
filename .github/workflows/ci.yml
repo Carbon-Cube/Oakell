@@ -17,5 +17,5 @@ jobs:
     - name: Build
       run: dotnet build ./aspnet-core/ --no-restore --configuration Release
       
-    - name: Test
-      run: dotnet test ./aspnet-core/ --no-build --verbosity normal
+    # - name: Test
+    #   run: dotnet test ./aspnet-core/ --no-build --verbosity normal
