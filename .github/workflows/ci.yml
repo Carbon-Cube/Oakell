@@ -1,10 +1,11 @@
-name: Continuous Integration
+name: staging-build
 on:
   push:
     branches: [ develop ]
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: develop
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
