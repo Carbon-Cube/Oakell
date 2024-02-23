@@ -1,10 +1,25 @@
-name: staging-deploy
+name: Staging CI/CD Pipeline
 
 on:
   push:
     branches: [ develop ]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: develop
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0'
+    - name: Restore dependencies
+      run: dotnet restore ./aspnet-core/
+      
+    - name: Build
+      run: dotnet build ./aspnet-core/ --no-restore --configuration Release
+
   deploy:
     runs-on: ubuntu-latest
     environment: develop
