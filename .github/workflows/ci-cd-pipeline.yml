@@ -64,14 +64,12 @@ jobs:
 
     - name: Create or Replace Database Secret
       run: |
-        set -x
         if kubectl get secret my-db-secret; then
           kubectl delete secret my-db-secret
         fi
           kubectl create secret generic my-db-secret \
             --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }} \
-            --kubectl apply -f -
-        set +x
+            --dry-run=client -o yaml | kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
@@ -83,11 +81,11 @@ jobs:
         if kubectl get secret ecr-secret; then
           kubectl delete secret ecr-secret
         fi
-          kubectl create secret docker-registry ecr-secret \
-            --docker-server=${{ secrets.ECR_REGISTRY}} \
-            --docker-username=AWS \
-            --docker-password=${{ secrets.ECR_PASSWORD }} \
-            --kubectl apply -f -
+        kubectl create secret docker-registry ecr-secret \
+          --docker-server=${{ secrets.ECR_REGISTRY}} \
+          --docker-username=AWS \
+          --docker-password=${{ secrets.ECR_PASSWORD }} \
+          --dry-run=client -o yaml | kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
