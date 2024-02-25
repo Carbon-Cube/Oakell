@@ -69,7 +69,7 @@ jobs:
         fi
           kubectl create secret generic my-db-secret \
             --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }} \
-            --dry-run=client -o yaml | kubectl apply -f -
+            --kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
@@ -85,7 +85,7 @@ jobs:
             --docker-server=${{ secrets.ECR_REGISTRY}} \
             --docker-username=AWS \
             --docker-password=${{ secrets.ECR_PASSWORD }} \
-            --dry-run=client -o yaml | kubectl apply -f -
+            --kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
