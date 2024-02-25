@@ -60,7 +60,7 @@ jobs:
 
     - name: Set up Kubeconfig
       run: |
-        aws eks --region $AWS_REGION update-kubeconfig --name oakell-staging
+        aws eks --region af-south-1 update-kubeconfig --name oakell-staging
 
     - name: Create Database Secret
       run: |
