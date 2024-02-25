@@ -64,11 +64,12 @@ jobs:
 
     - name: Create or Replace Database Secret
       run: |
+        set -x
         if kubectl get secret my-db-secret; then
           kubectl delete secret my-db-secret
         fi
-          kubectl create secret generic my-db-secret \
-            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}
+          kubectl create secret generic my-db-secret --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}
+        set +x
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
