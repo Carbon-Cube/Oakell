@@ -64,45 +64,33 @@ jobs:
 
     - name: Create or Replace Database Secret
       run: |
-        kubectl get secret my-db-secret
-        if [ $? -ne 0 ]; then
-          echo "Secret does not exist. Creating secret."
-          kubectl create secret generic my-db-secret \
-            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}
-        else
-          echo "Secret already exists. Updating secret if necessary."
+        if kubectl get secret my-db-secret; then
+          kubectl delete secret my-db-secret
+        fi
           kubectl create secret generic my-db-secret \
             --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }} \
             --dry-run=client -o yaml | kubectl apply -f -
-        fi
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Create or Update ECR Secret for Kubernetes
+    - name: Create ECR Secret for Kubernetes
       run: |
-        if ! kubectl get secret ecr-secret; then
-          echo "ECR secret does not exist. Creating secret."
+        if kubectl get secret ecr-secret; then
+          kubectl delete secret ecr-secret
+        fi
           kubectl create secret docker-registry ecr-secret \
-            --docker-server=${{ secrets.ECR_REGISTRY }} \
-            --docker-username=AWS \
-            --docker-password=${{ secrets.ECR_PASSWORD }}
-        else
-          echo "ECR secret already exists. Updating secret."
-          kubectl create secret docker-registry ecr-secret \
-            --docker-server=${{ secrets.ECR_REGISTRY }} \
+            --docker-server=${{ secrets.ECR_REGISTRY}} \
             --docker-username=AWS \
             --docker-password=${{ secrets.ECR_PASSWORD }} \
             --dry-run=client -o yaml | kubectl apply -f -
-        fi
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
         
     - name: Deploy to EKS
       run: |
