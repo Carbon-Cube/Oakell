@@ -68,8 +68,8 @@ jobs:
           kubectl delete secret my-db-secret
         fi
           kubectl create secret generic my-db-secret \
-            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }} \
-            --kubectl apply -f -
+            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}
+          kubectl apply -f
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
@@ -84,8 +84,8 @@ jobs:
           kubectl create secret docker-registry ecr-secret \
             --docker-server=${{ secrets.ECR_REGISTRY}} \
             --docker-username=AWS \
-            --docker-password=${{ secrets.ECR_PASSWORD }} \
-            --kubectl apply -f -
+            --docker-password=${{ secrets.ECR_PASSWORD }}
+          kubectl apply -f
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
@@ -95,3 +95,5 @@ jobs:
     - name: Deploy to EKS
       run: |
         kubectl apply -f kubernetes/staging-deployment.yml
+
+        kubectl create secret generic my-db-secret --from-literal=connectionstring=*** --kubectl apply -f -
