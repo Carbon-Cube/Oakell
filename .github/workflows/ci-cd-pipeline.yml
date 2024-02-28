@@ -32,6 +32,22 @@ jobs:
   #         dotnet-version: '8.0'
   #     - name: Test
   #       run: dotnet test ./aspnet-core/ --no-build --verbosity normal
+  
+  migrate-database:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '8.0'
+
+    - name: Build DbMigrator project
+      run: dotnet build ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj -c Release
+
+    - name: Execute DbMigrator
+      run: dotnet run --project ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj
 
   deploy:
     runs-on: ubuntu-latest
