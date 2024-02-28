@@ -60,9 +60,9 @@ jobs:
 
     - name: Set up Kubeconfig
       run: |
-        aws eks --region af-south-1 update-kubeconfig --name oakell-staging
-
+        aws eks --region af-south-1 update-kubeconfig --name oakell
     - name: Create or Replace Database Secret
+    
       run: |
         if kubectl get secret my-db-secret; then
           kubectl delete secret my-db-secret

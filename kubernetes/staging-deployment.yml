@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oakell-staging-deployment
+  name: oakell-deployment
   labels:
-    app: oakell-staging
+    app: oakell
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: oakell-staging
+      app: oakell
   template:
     metadata:
       labels:
-        app: oakell-staging
+        app: oakell
     spec:
       containers:
         - name: oakell-staging
@@ -40,10 +40,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: oakell-staging-service
+  name: oakell-service
 spec:
   selector:
-    app: oakell-staging
+    app: oakell
   ports:
     - protocol: TCP
       port: 80
