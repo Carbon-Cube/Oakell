@@ -19,9 +19,10 @@ COPY ./ ./
 WORKDIR "src/Oakell.HttpApi.Host"
 RUN dotnet build "Oakell.HttpApi.Host.csproj" -c Release -o /app/build
 
-WORKDIR "../Oakell.DbMigrator"
+WORKDIR "src/Oakell.DbMigrator"
 RUN dotnet build "Oakell.DbMigrator.csproj" -c Release -o /app/dbmigrator
 
+WORKDIR "src/Oakell.HttpApi.Host"
 FROM build AS publish
 RUN dotnet publish "Oakell.HttpApi.Host.csproj" -c Release -o /app/publish
 
