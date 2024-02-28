@@ -10,6 +10,7 @@ WORKDIR /src
 
 # Copy the csproj file and restore any dependencies (via NUGET)
 COPY ["src/Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj", "Oakell.HttpApi.Host/"]
+RUN ls
 RUN dotnet restore "Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj"
 
 # Copy the project files and build the release
@@ -17,14 +18,12 @@ COPY ./ ./
 WORKDIR "src/Oakell.HttpApi.Host"
 RUN dotnet build "Oakell.HttpApi.Host.csproj" -c Release -o /app/build
 
-WORKDIR "src/Oakell.HttpApi.Host"
 FROM build AS publish
 RUN dotnet publish "Oakell.HttpApi.Host.csproj" -c Release -o /app/publish
-
-
 
 # Final stage/image
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Oakell.HttpApi.Host.dll"]
+
