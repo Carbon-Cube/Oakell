@@ -49,8 +49,8 @@ jobs:
 
     - name: Execute DbMigrator
       run: dotnet run
-      # env:
-      #   ConnectionStrings__Default: ${{ secrets.STAGING_CONNECTION_STRING }} 
+      env:
+        ConnectionStrings__Default: ${{ secrets.STAGING_CONNECTION_STRING }} 
       working-directory: ./aspnet-core/src/Oakell.DbMigrator/
 
   deploy:
