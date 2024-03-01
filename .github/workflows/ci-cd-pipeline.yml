@@ -33,30 +33,20 @@ jobs:
   #     - name: Test
   #       run: dotnet test ./aspnet-core/ --no-build --verbosity normal
   
-  migrate-database:
-    runs-on: ubuntu-latest
-    environment: develop
-    steps:
-    - uses: actions/checkout@v2
+  # migrate-database:
+  #   runs-on: ubuntu-latest
+  #   environment: develop
+  #   steps:
+  #   - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '8.0'
+  #   - name: Setup .NET Core
+  #     uses: actions/setup-dotnet@v1
+  #     with:
+  #       dotnet-version: '8.0'
 
-    - name: Build DbMigrator project
-      run: dotnet build ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj -c Release
-
-    - name: echo staging string
-      run: |
-        echo ${{ secrets.STAGING_CONNECTION_STRING }} 
-        echo ${{ secrets.STAGING_CONNECTION_STRING }} | wc -c
-
-    - name: Execute DbMigrator
-      run: dotnet run
-      env:
-        ConnectionStrings__Default: "Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;"
-      working-directory: ./aspnet-core/src/Oakell.DbMigrator/
+  #     env:
+  #       ConnectionStrings__Default: "Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;"
+  #     working-directory: ./aspnet-core/src/Oakell.DbMigrator/
     
   deploy:
     runs-on: ubuntu-latest
@@ -122,3 +112,11 @@ jobs:
     - name: Deploy to EKS
       run: |
         kubectl apply -f kubernetes/staging-deployment.yml
+
+    
+    - name: Build DbMigrator project
+      run: dotnet build ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj -c Release
+  
+    - name: Execute DbMigrator
+      run: dotnet run
+      working-directory: ./aspnet-core/src/Oakell.DbMigrator/
