@@ -28,4 +28,4 @@ COPY --from=publish-api /app/publish .
 COPY --from=publish-db-migrator /app/publish-db-migrator ./dbmigrator
 COPY ./scripts/startup.sh ./startup.sh
 RUN chmod +x ./startup.sh
-ENTRYPOINT ["scripts/startup.sh"]
+ENTRYPOINT ["./startup.sh"]
