@@ -56,7 +56,7 @@ jobs:
           kubectl delete secret my-db-secret
         fi
           kubectl create secret generic my-db-secret \
-            --from-literal=connectionstring='Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;' \
+            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}  \
             --dry-run=client -o yaml | kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
