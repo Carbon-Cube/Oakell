@@ -47,12 +47,17 @@ jobs:
     - name: Build DbMigrator project
       run: dotnet build ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj -c Release
 
+    - name: echo staging string
+      run: |
+        echo ${{ secrets.STAGING_CONNECTION_STRING }} 
+        echo ${{ secrets.STAGING_CONNECTION_STRING }} | wc -c
+
     - name: Execute DbMigrator
       run: dotnet run
       env:
         ConnectionStrings__Default: ${{ secrets.STAGING_CONNECTION_STRING }} 
       working-directory: ./aspnet-core/src/Oakell.DbMigrator/
-
+    
   deploy:
     runs-on: ubuntu-latest
     environment: develop
@@ -84,7 +89,7 @@ jobs:
     - name: Create or Replace Database Secret
     
       run: |
-        echo secrets.STAGING_CONNECTION_STRING
+        echo ${{ secrets.STAGING_CONNECTION_STRING }} 
         if kubectl get secret my-db-secret; then
           kubectl delete secret my-db-secret
         fi
