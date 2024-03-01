@@ -55,7 +55,7 @@ jobs:
     - name: Execute DbMigrator
       run: dotnet run
       env:
-        ConnectionStrings__Default: ${{ secrets.STAGING_CONNECTION_STRING }} 
+        ConnectionStrings__Default: "Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;"
       working-directory: ./aspnet-core/src/Oakell.DbMigrator/
     
   deploy:
@@ -94,7 +94,7 @@ jobs:
           kubectl delete secret my-db-secret
         fi
           kubectl create secret generic my-db-secret \
-            --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }} \
+            --from-literal=connectionstring='Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;' \
             --dry-run=client -o yaml | kubectl apply -f -
   
       env:
