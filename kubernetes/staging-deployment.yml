@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oakell-deployment
+  name: oakell-staging-be
   labels:
     app: oakell
 spec:
