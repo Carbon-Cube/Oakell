@@ -20,34 +20,6 @@ jobs:
     - name: Build
       run: dotnet build ./aspnet-core/ --no-restore --configuration Release
 
-  # test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   environment: develop
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Setup .NET
-  #       uses: actions/setup-dotnet@v1
-  #       with:
-  #         dotnet-version: '8.0'
-  #     - name: Test
-  #       run: dotnet test ./aspnet-core/ --no-build --verbosity normal
-  
-  # migrate-database:
-  #   runs-on: ubuntu-latest
-  #   environment: develop
-  #   steps:
-  #   - uses: actions/checkout@v2
-
-  #   - name: Setup .NET Core
-  #     uses: actions/setup-dotnet@v1
-  #     with:
-  #       dotnet-version: '8.0'
-
-  #     env:
-  #       ConnectionStrings__Default: "Host=oakell-staging.c5so8e2w0b55.af-south-1.rds.amazonaws.com;Port=5432;Database=Oakell;Username=postgres;Password=4ftKBff8MJx4dt$D;"
-  #     working-directory: ./aspnet-core/src/Oakell.DbMigrator/
-    
   deploy:
     runs-on: ubuntu-latest
     environment: develop
@@ -112,11 +84,12 @@ jobs:
     - name: Deploy to EKS
       run: |
         kubectl apply -f kubernetes/staging-deployment.yml
-
     
-    - name: Build DbMigrator project
-      run: dotnet build ./aspnet-core/src/Oakell.DbMigrator/Oakell.DbMigrator.csproj -c Release
-  
-    - name: Execute DbMigrator
-      run: dotnet run
-      working-directory: ./aspnet-core/src/Oakell.DbMigrator/
+    - name: Force Rollout Restart
+      run: |
+        kubectl rollout restart kubernetes/staging-deployment.yml
+      env:
+        AWS_DEFAULT_REGION: af-south-1
+        AWS_REGION: af-south-1
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

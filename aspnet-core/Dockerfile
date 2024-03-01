@@ -1,29 +1,31 @@
-# Use the official Microsoft ASP.NET Core runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
 # Use the official Microsoft .NET SDK image to build the project files
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy the csproj file and restore any dependencies (via NUGET)
+# Copy csproj and restore as distinct layers
 COPY ["src/Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj", "Oakell.HttpApi.Host/"]
-RUN ls
+COPY ["src/Oakell.DbMigrator/Oakell.DbMigrator.csproj", "Oakell.DbMigrator/"]
 RUN dotnet restore "Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj"
+RUN dotnet restore "Oakell.DbMigrator/Oakell.DbMigrator.csproj"
 
-# Copy the project files and build the release
+# Copy everything else and build
 COPY ./ ./
-WORKDIR "src/Oakell.HttpApi.Host"
-RUN dotnet build "Oakell.HttpApi.Host.csproj" -c Release -o /app/build
+RUN dotnet build "src/Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj" -c Release -o /app/build
+RUN dotnet build "src/Oakell.DbMigrator/Oakell.DbMigrator.csproj" -c Release -o /app/build-db-migrator
 
-FROM build AS publish
-RUN dotnet publish "Oakell.HttpApi.Host.csproj" -c Release -o /app/publish
+# Publish HttpApi.Host
+FROM build AS publish-api
+RUN dotnet publish "src/Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj" -c Release -o /app/publish
+
+# Publish DbMigrator
+FROM build AS publish-db-migrator
+RUN dotnet publish "src/Oakell.DbMigrator/Oakell.DbMigrator.csproj" -c Release -o /app/publish-db-migrator
 
 # Final stage/image
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Oakell.HttpApi.Host.dll"]
-
+COPY --from=publish-api /app/publish .
+COPY --from=publish-db-migrator /app/publish-db-migrator ./dbmigrator
+COPY ./scripts/startup.sh ./startup.sh
+RUN chmod +x ./startup.sh
+ENTRYPOINT ["scripts/startup.sh"]
