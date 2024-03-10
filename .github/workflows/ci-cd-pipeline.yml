@@ -84,11 +84,11 @@ jobs:
       run: |
         kubectl apply -f kubernetes/staging-deployment.yml --namespace oakell-staging
     
-    - name: Force Rollout Restart
-      run: |
-        kubectl rollout restart deployment/oakell-staging-be
-      env:
-        AWS_DEFAULT_REGION: af-south-1
-        AWS_REGION: af-south-1
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    # - name: Force Rollout Restart
+    #   run: |
+    #     kubectl rollout restart deployment/oakell-staging-be
+    #   env:
+    #     AWS_DEFAULT_REGION: af-south-1
+    #     AWS_REGION: af-south-1
+    #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
