@@ -49,27 +49,5 @@ spec:
   ports:
     - protocol: TCP
       port: 80
-      targetPort: 80
+      targetPort: 8080
   type: LoadBalancer
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: backend-ingress
-  namespace: oakell-staging
-  annotations:
-    kubernetes.io/ingress.class: "alb"
-    alb.ingress.kubernetes.io/scheme: internet-facing
-spec:
-  rules:
-  - host: api.staging.oakell.com
-    http:
-      paths:
-      - path: /api
-        pathType: Prefix
-        backend:
-          service:
-            name: oakell-service
-            port:
-              number: 80
-
