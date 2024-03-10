@@ -52,11 +52,12 @@ jobs:
     
       run: |
         echo ${{ secrets.STAGING_CONNECTION_STRING }} 
-        if kubectl get secret my-db-secret; then
-          kubectl delete secret my-db-secret
+        if kubectl get secret my-db-secret --namespace oakell-staging; then
+          kubectl delete secret my-db-secret --namespace oakell-staging
         fi
           kubectl create secret generic my-db-secret \
             --from-literal=connectionstring=${{ secrets.STAGING_CONNECTION_STRING }}  \
+            --namespace oakell-staging \
             --dry-run=client -o yaml | kubectl apply -f -
       env:
         AWS_DEFAULT_REGION: af-south-1
@@ -66,12 +67,13 @@ jobs:
 
     - name: Create ECR Secret for Kubernetes
       run: |
-        if kubectl get secret ecr-secret; then
-          kubectl delete secret ecr-secret
+        if kubectl get secret ecr-secret --namespace oakell-staging; then
+          kubectl delete secret ecr-secret --namespace oakell-staging
         fi
         kubectl create secret docker-registry ecr-secret \
           --docker-server=${{ secrets.ECR_REGISTRY}} \
           --docker-username=AWS \
+          --namespace oakell-staging \
           --docker-password=${{ secrets.ECR_PASSWORD }} \
           --dry-run=client -o yaml | kubectl apply -f -
       env:
