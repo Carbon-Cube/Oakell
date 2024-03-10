@@ -82,7 +82,7 @@ jobs:
         
     - name: Deploy to EKS
       run: |
-        kubectl apply -f kubernetes/staging-deployment.yml --namespace staging
+        kubectl apply -f kubernetes/staging-deployment.yml --namespace oakell-staging
     
     - name: Force Rollout Restart
       run: |
