@@ -104,7 +104,7 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     environment: develop
-    if: contains(github.event.head_commit.modified, 'frontend/') || contains(github.event.head_commit.added, 'frontend/') || contains(github.event.head_commit.removed, 'frontend/')
+    if: contains(github.event.head_commit.modified, 'angular/') || contains(github.event.head_commit.added, 'angular/') || contains(github.event.head_commit.removed, 'angular/')
     steps:
     - uses: actions/checkout@v2
 
