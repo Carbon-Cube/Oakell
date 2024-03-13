@@ -120,7 +120,7 @@ jobs:
       working-directory: ./angular
 
     - name: Build Angular Project
-      run: yarn build --production
+      run: yarn build
       working-directory: ./angular
       
   deploy-frontend:
