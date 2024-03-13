@@ -89,7 +89,7 @@ jobs:
     
     - name: Force Rollout Restart
       run: |
-        kubectl rollout restart deployment/oakell-staging-be
+        kubectl rollout restart deployment/oakell-staging-be --namespace oakell-staging
       env:
         AWS_DEFAULT_REGION: af-south-1
         AWS_REGION: af-south-1
@@ -120,7 +120,7 @@ jobs:
       working-directory: ./angular
 
     - name: Build Angular Project
-      run: yarn build
+      run: yarn build --production
       working-directory: ./angular
       
   deploy-frontend:
