@@ -116,10 +116,12 @@ jobs:
           ${{ runner.os }}-yarn-
 
     - name: Install dependencies
-      run: yarn install --cwd angular
+      run: yarn install
+      working-directory: ./angular
 
     - name: Build Angular Project
-      run: yarn build --cwd angular --prod
+      run: yarn build --prod
+      working-directory: ./angular
       
   deploy-frontend:
     needs: build-frontend
