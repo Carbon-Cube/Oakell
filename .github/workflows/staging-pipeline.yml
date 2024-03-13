@@ -11,7 +11,6 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     environment: develop
-    # if: contains(github.event.head_commit.modified, 'aspnet-core/') || contains(github.event.head_commit.added, 'aspnet-core/') || contains(github.event.head_commit.removed, 'aspnet-core/')
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET
@@ -28,7 +27,6 @@ jobs:
     needs: build-backend
     runs-on: ubuntu-latest
     environment: develop
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
     - uses: actions/checkout@v2
     
@@ -104,7 +102,6 @@ jobs:
   build-frontend:
     runs-on: ubuntu-latest
     environment: develop
-    # if: contains(github.event.head_commit.modified, 'angular/') || contains(github.event.head_commit.added, 'angular/') || contains(github.event.head_commit.removed, 'angular/')
     steps:
     - uses: actions/checkout@v2
 
@@ -131,7 +128,6 @@ jobs:
     needs: build-frontend
     environment: develop
     runs-on: ubuntu-latest
-    # if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     steps:
     - uses: actions/checkout@v2
 
