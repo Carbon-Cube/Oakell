@@ -132,7 +132,7 @@ jobs:
 
     - name: Deploy to Amazon S3 and Invalidate CloudFront
       run: |
-        aws s3 sync angular s3://oakell-staging --delete
+        aws s3 sync angular/src s3://oakell-staging --delete
         aws cloudfront create-invalidation --distribution-id E2SXAN92LHVZDV --paths "/*"
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
