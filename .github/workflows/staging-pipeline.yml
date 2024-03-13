@@ -3,9 +3,6 @@ name: Staging CI/CD Pipeline
 on:
   push:
     branches: [ develop ]
-    paths:
-      - 'angular/**'
-      - 'aspnet-core/**'
 
 jobs:
   build-backend:
