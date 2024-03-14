@@ -121,7 +121,7 @@ jobs:
 
     - name: Build Angular Project
       run: |
-          yarn build /
+          yarn build
           ls -la
       working-directory: angular
       
