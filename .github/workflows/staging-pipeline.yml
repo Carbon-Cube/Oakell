@@ -121,9 +121,11 @@ jobs:
 
     - name: Build Angular Project
       run: |
-          yarn build
-          ls -la
+          export NODE_ENV=staging
+          yarn build --configuration=$NODE_ENV
       working-directory: angular
+      env:
+        NODE_ENV: staging
 
     - name: Upload dist directory
       uses: actions/upload-artifact@v2
@@ -146,8 +148,6 @@ jobs:
 
     - name: Deploy to Amazon S3 and Invalidate CloudFront
       run: |
-        ls /
-        ls dist/
         aws s3 sync dist/Oakell s3://oakell-staging --delete
         aws cloudfront create-invalidation --distribution-id E2SXAN92LHVZDV --paths "/*"
       working-directory: angular
