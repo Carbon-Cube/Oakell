@@ -12,7 +12,7 @@ metadata:
     nginx.ingress.kubernetes.io/cors-allow-origin: "http://oakell-staging.s3-website.af-south-1.amazonaws.com/"
 spec:
   rules:
-  - host: http://api.staging.oakell.com/
+  - host: api.staging.oakell.com
     http:
       paths:
       - path: /
