@@ -124,6 +124,12 @@ jobs:
           yarn build
           ls -la
       working-directory: angular
+
+    - name: Upload dist directory
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: angular/dist/
       
   deploy-frontend:
     needs: build-frontend
@@ -131,6 +137,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
+    - name: Download dist directory
+      uses: actions/download-artifact@v2
+      with:
+        name: dist
+        path: angular/dist/
 
     - name: Deploy to Amazon S3 and Invalidate CloudFront
       run: |
