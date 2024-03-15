@@ -37,17 +37,3 @@ spec:
               cpu: "500m"
       imagePullSecrets:
         - name: ecr-secret
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: oakell-service
-  namespace: oakell-staging
-spec:
-  selector:
-    app: oakell
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-  type: LoadBalancer
