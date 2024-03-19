@@ -7,7 +7,7 @@ spec:
   selector:
     app: oakell
   ports:
-    - protocol: TCP
-      port: 80
+    - protocol: SCTP
+      port: 443
       targetPort: 8080
   type: LoadBalancer
