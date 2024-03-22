@@ -1,6 +1,6 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://api.staging.oakell.com/';
+const baseUrl = 'https://api.staging.oakell.com/';
 
 export const environment = {
   production: true,
@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'http://api.staging.oakell.com/',
+    issuer: 'https://api.staging.oakell.com/',
     redirectUri: baseUrl,
     clientId: 'Oakell_App',
     responseType: 'code',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'http://api.staging.oakell.com/',
+      url: 'https://api.staging.oakell.com/',
       rootNamespace: 'Oakell',
     },
   },
