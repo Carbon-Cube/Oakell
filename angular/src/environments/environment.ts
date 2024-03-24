@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'http://localhost:44380/',
+    issuer: 'https://localhost:44380/',
     redirectUri: baseUrl,
     clientId: 'Oakell_App',
     responseType: 'code',
@@ -19,7 +19,7 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'http://localhost:44380',
+      url: 'https://localhost:44380',
       rootNamespace: 'Oakell',
     },
   },
