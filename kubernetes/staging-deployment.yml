@@ -19,7 +19,7 @@ spec:
         - name: oakell-staging
           image: 471112673244.dkr.ecr.af-south-1.amazonaws.com/oakell-staging:latest
           ports:
-            - containerPort: 80
+            - containerPort: 443
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Staging"
