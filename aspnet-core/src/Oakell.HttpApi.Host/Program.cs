@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Serilog;
 using Serilog.Events;
 
@@ -29,6 +30,15 @@ public class Program
         {
             Log.Information("Starting Oakell.HttpApi.Host.");
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders = 
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+                // If behind a load balancer, such as AWS ELB, you may need to add its IP address here
+                // options.KnownProxies.Add(IPAddress.Parse("load-balancer-ip"));
+            });
+
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
