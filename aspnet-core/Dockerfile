@@ -28,6 +28,6 @@ WORKDIR /app
 COPY --from=publish-api /app/publish .
 COPY --from=publish-db-migrator /app/publish-db-migrator ./dbmigrator
 COPY ./scripts/startup.sh ./startup.sh
-COPY /openiddict.pfx ./certificate.pfx
+COPY aspnet-core/openiddict.pfx ./certificate.pfx
 RUN chmod +x ./startup.sh
 ENTRYPOINT ["./startup.sh"]
