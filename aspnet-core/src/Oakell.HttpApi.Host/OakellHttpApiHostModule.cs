@@ -57,6 +57,11 @@ public class OakellHttpApiHostModule : AbpModule
                 options.UseAspNetCore();
             });
         });
+
+        Configure<OpenIddictServerAspNetCoreBuilder>(configure => 
+        { 
+            configure.DisableTransportSecurityRequirement(); 
+        }); 
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
