@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +29,8 @@ public class Program
 
         try
         {
+            
+
             Log.Information("Starting Oakell.HttpApi.Host.");
             var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +39,7 @@ public class Program
                 options.ForwardedHeaders = 
                     ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 // If behind a load balancer, such as AWS ELB, you may need to add its IP address here
-                // options.KnownProxies.Add(IPAddress.Parse("load-balancer-ip"));
+                options.KnownProxies.Add(IPAddress.Parse("a7c5b599338a443bc8666bb06451da99-2125813449.af-south-1.elb.amazonaws.com"));
             });
 
             builder.Host.AddAppSettingsSecretsJson()
