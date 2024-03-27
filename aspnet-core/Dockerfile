@@ -21,11 +21,13 @@ RUN dotnet publish "src/Oakell.HttpApi.Host/Oakell.HttpApi.Host.csproj" -c Relea
 FROM build AS publish-db-migrator
 RUN dotnet publish "src/Oakell.DbMigrator/Oakell.DbMigrator.csproj" -c Release -o /app/publish-db-migrator
 
+
 # Final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=publish-api /app/publish .
 COPY --from=publish-db-migrator /app/publish-db-migrator ./dbmigrator
 COPY ./scripts/startup.sh ./startup.sh
+COPY /openiddict.pfx ./certificate.pfx
 RUN chmod +x ./startup.sh
 ENTRYPOINT ["./startup.sh"]
