@@ -66,10 +66,6 @@ public class OakellHttpApiHostModule : AbpModule
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
 
-        Configure<OpenIddictServerAspNetCoreBuilder>(configure => 
-        { 
-            configure.DisableTransportSecurityRequirement(); 
-        }); 
 
         ConfigureAuthentication(context);
         ConfigureBundles();
@@ -88,6 +84,11 @@ public class OakellHttpApiHostModule : AbpModule
         {
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
         });
+
+        Configure<OpenIddictServerAspNetCoreBuilder>(configure => 
+        { 
+            configure.DisableTransportSecurityRequirement(); 
+        }); 
 
         context.Services.ForwardIdentityAuthenticationForBearer(OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme);
         context.Services.Configure<AbpClaimsPrincipalFactoryOptions>(options =>
@@ -195,6 +196,7 @@ public class OakellHttpApiHostModule : AbpModule
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
 
+
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -213,6 +215,13 @@ public class OakellHttpApiHostModule : AbpModule
         app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
+        app.UseForwardedHeaders();
+
+        app.Use((httpContext, next) =>
+        {
+            httpContext.Request.Scheme = "https";
+            return next();
+        });
 
         if (MultiTenancyConsts.IsEnabled)
         {
